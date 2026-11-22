@@ -1,391 +1,105 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>وقف مساجد حلب - صدقة جارية</title>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #140b0b;
-            --card-dark: #211212;
-            --border-dark: #381e1e;
-            --red-primary: #b91c1c;
-            --red-gradient: linear-gradient(145deg, #c81e1e, #881313);
-            --text-light: #ffffff;
-            --text-muted: #d1c4c4;
-            --green-badge: #10b981;
-            --gold-badge: #fef3c7;
-            --gold-text: #92400e;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.6;
-            padding-bottom: 40px;
-        }
-
-        /* الهيدر العلوي */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            max-width: 600px;
-            margin: auto;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .brand-logo {
-            width: 38px;
-            height: 38px;
-            background-color: #fff;
-            color: var(--red-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 20px;
-        }
-
-        .search-pill {
-            background: #fff;
-            color: #444;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* شريط التنبيه الأحمر */
-        .urgent-banner {
-            background-color: var(--red-primary);
-            color: #fff;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 13px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .urgent-banner span.icon {
-            background: #fff;
-            color: var(--red-primary);
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 800;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        /* البطاقة الرئيسية للحملة */
-        .hero-card {
-            background: var(--red-gradient);
-            border-radius: 22px;
-            padding: 25px 20px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(185, 28, 28, 0.25);
-        }
-
-        .badge-white {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: #fff;
-            color: #111;
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        .dot-red {
-            width: 8px;
-            height: 8px;
-            background: var(--red-primary);
-            border-radius: 50%;
-        }
-
-        .hero-card h1 {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 14px;
-            line-height: 1.35;
-        }
-
-        .hero-card p {
-            font-size: 14.5px;
-            color: #f8e8e8;
-            margin-bottom: 22px;
-            line-height: 1.75;
-        }
-
-        /* الإحصائيات الثلاث */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .stat-box {
-            background: rgba(0, 0, 0, 0.22);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 14px 8px;
-        }
-
-        .stat-box.highlight {
-            background: #fff;
-            color: #111;
-        }
-
-        .stat-box .num {
-            font-size: 20px;
-            font-weight: 800;
-            display: block;
-        }
-
-        .stat-box.highlight .num {
-            color: var(--red-primary);
-        }
-
-        .stat-box .label {
-            font-size: 12px;
-            opacity: 0.9;
-        }
-
-        /* بطاقة الحديث الشريف */
-        .hadith-card {
-            background: var(--card-dark);
-            border: 1px solid var(--border-dark);
-            border-radius: 16px;
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 14px;
-        }
-
-        .hadith-icon {
-            width: 40px;
-            height: 40px;
-            min-width: 40px;
-            background: rgba(185, 28, 28, 0.15);
-            border: 1px solid rgba(185, 28, 28, 0.4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ef4444;
-            font-size: 18px;
-        }
-
-        /* قسم التبرع المباشر */
-        .section-card {
-            background: var(--card-dark);
-            border: 1px solid var(--border-dark);
-            border-radius: 20px;
-            padding: 20px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-        }
-
-        .section-header h2 {
-            font-size: 19px;
-            font-weight: 800;
-        }
-
-        .badge-safe {
-            background: #fff;
-            color: #111;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .dot-green {
-            width: 8px;
-            height: 8px;
-            background: var(--green-badge);
-            border-radius: 50%;
-        }
-
-        .crypto-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 18px;
-        }
-
-        .crypto-item {
-            background: #180d0d;
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 14px;
-            text-align: right;
-        }
-
-        .crypto-item small {
-            color: var(--text-muted);
-            font-size: 11px;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .crypto-main {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 800;
-            font-size: 16px;
-        }
-
-        .coin-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            color: #fff;
-        }
-
-        .usdt-bg { background: #10b981; }
-        .trc-bg { background: #ef4444; }
-
-        .crypto-sub {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 4px;
-            display: block;
-        }
-
-        /* صندوق عنوان المحفظة */
-        .wallet-label-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .wallet-box {
-            background: #0d0707;
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 16px;
-            text-align: left;
-            direction: ltr;
-            margin-bottom: 14px;
-        }
-
-        .wallet-box span {
-            display: block;
-            font-size: 11px;
-            color: #9ca3af;
-            margin-bottom: 6px;
-        }
-
-        .wallet-address {
-            font-family: monospace;
-            font-size: 15px;
-            font-weight: 700;
-            color: #fff;
-            word-break: break-all;
-            letter-spacing: 0.5px;
-        }
-
-        .copy-btn {
-            width: 100%;
-            background: var(--red-primary);
-            color: #fff;
-            border: none;
-            border-radius: 14px;
-            padding: 14px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.2s;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.98);
-        }
-
-        .warning-note {
-            margin-top: 14px;
-            background: rgba(185, 28, 28, 0.12);
-            border: 1px solid rgba(185, 28, 28, 0.35);
-            border-radius: 12px;
-            padding: 12px;
-            font-size: 12px;
-            color: #fca5a5;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        /* قسم آخر التبرعات */
-        .donations-title {
-            margin-bottom: 12px;
-        }
-
-        .donations-title h2 {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .donations-title p {
-            font-size: 12.5px;
-            color: var(--text-muted);
-        }
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وقف مساجد حلب - صدقة جارية</title>
+<link href="https://googleapis.com" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{background:#140b0b;color:#fff;line-height:1.6;padding-bottom:40px}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;max-width:600px;margin:auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.brand-logo{width:38px;height:38px;background:#fff;color:#b91c1c;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px}
+.search-pill{background:#fff;color:#444;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.urgent-banner{background:#b91c1c;color:#fff;text-align:center;padding:8px 15px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.urgent-banner .icon{background:#fff;color:#b91c1c;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.container{max-width:600px;margin:auto;padding:18px;display:flex;flex-direction:column;gap:18px}
+.hero-card{background:linear-gradient(145deg,#c81e1e,#881313);border-radius:22px;padding:25px 20px;text-align:center;box-shadow:0 10px 25px rgba(185,28,28,0.25)}
+.badge-white{display:inline-flex;align-items:center;gap:6px;background:#fff;color:#111;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:15px}
+.dot-red{width:8px;height:8px;background:#b91c1c;border-radius:50%}
+.hero-card h1{font-size:26px;font-weight:800;margin-bottom:14px;line-height:1.35}
+.hero-card p{font-size:14.5px;color:#f8e8e8;margin-bottom:22px;line-height:1.75}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat-box{background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:14px 8px}
+.stat-box.highlight{background:#fff;color:#111}
+.stat-box .num{font-size:20px;font-weight:800;display:block}
+.stat-box.highlight .num{color:#b91c1c}
+.stat-box .label{font-size:12px;opacity:0.9}
+.hadith-card,.section-card,.tx-card,.trust-card{background:#211212;border:1px solid #381e1e;border-radius:18px;padding:18px}
+.hadith-card{display:flex;align-items:center;gap:14px;font-size:14px}
+.hadith-icon{width:40px;height:40px;min-width:40px;background:rgba(185,28,28,0.15);border:1px solid rgba(185,28,28,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ef4444;font-size:18px}
+.section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.badge-safe{background:#fff;color:#111;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.dot-green{width:8px;height:8px;background:#10b981;border-radius:50%}
+.crypto-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.crypto-item{background:#180d0d;border:1px solid #381e1e;border-radius:14px;padding:14px}
+.crypto-item small{color:#d1c4c4;font-size:11px;display:block;margin-bottom:6px}
+.crypto-main{display:flex;align-items:center;gap:8px;font-weight:800;font-size:16px}
+.coin-icon{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px;color:#fff}
+.usdt-bg{background:#10b981}.trc-bg{background:#ef4444}
+.crypto-sub{font-size:11px;color:#d1c4c4;margin-top:4px;display:block}
+.wallet-label-row{display:flex;justify-content:space-between;font-size:12px;color:#d1c4c4;margin-bottom:8px}
+.wallet-box{background:#0d0707;border:1px solid #381e1e;border-radius:14px;padding:16px;text-align:left;direction:ltr;margin-bottom:14px}
+.wallet-box span{display:block;font-size:11px;color:#9ca3af;margin-bottom:6px}
+.wallet-address{font-family:monospace;font-size:15px;font-weight:700;color:#fff;word-break:break-all}
+.copy-btn{width:100%;background:#b91c1c;color:#fff;border:none;border-radius:14px;padding:14px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.warning-note{margin-top:14px;background:rgba(185,28,28,0.12);border:1px solid rgba(185,28,28,0.35);border-radius:12px;padding:12px;font-size:12px;color:#fca5a5;display:flex;gap:8px}
+.tx-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sham-logo{width:46px;height:46px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#0284c7;font-weight:800;font-size:20px}
+.sham-tag{background:rgba(16,185,129,0.15);color:#34d399;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.hash-box{background:#0d0707;border:1px solid #381e1e;border-radius:12px;padding:10px;font-family:monospace;font-size:12px;color:#e5e7eb;word-break:break-all;text-align:center;margin:6px 0 14px}
+.pill-gold{background:#fef3c7;color:#92400e;padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:700}
+.pill-confirmed{background:#ecfdf5;color:#059669;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:800}
+.trust-card{display:flex;align-items:center;gap:14px}
+.check-circle{width:34px;height:34px;min-width:34px;background:rgba(185,28,28,0.15);color:#ef4444;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800}
+</style>
+</head>
+<body>
+<header>
+<div class="brand"><div class="brand-logo">و</div><span>وقف مساجد حلب</span></div>
+<div class="search-pill"><span>🔍</span><span>اكتشف قضايا ملهمة</span></div>
+</header>
+<div class="urgent-banner"><span class="icon">!</span><span>حملة عاجلة - نحتاج دعمكم الآن لإعادة إعمار بيوت الله</span></div>
+<div class="container">
+<section class="hero-card">
+<div class="badge-white"><span class="dot-red"></span><span>حالة عاجلة - حلب</span></div>
+<h1>وقف إعمار مساجد حلب - صدقة جارية</h1>
+<p>تضررت عشرات المساجد في أحياء حلب القديمة جراء السنوات الماضية. نعمل على ترميمها، توفير سجاد الصلاة، الإنارة، وأنظمة الصوت، لكي يعود الأذان ويجتمع المصلون من جديد. كل تبرع هو لبنة في بيت من بيوت الله، وأجرها جارٍ لا ينقطع.</p>
+<div class="stats-grid">
+<div class="stat-box"><span class="num">+27</span><span class="label">مسجد مستهدف</span></div>
+<div class="stat-box"><span class="num">100%</span><span class="label">تبرع مباشر</span></div>
+<div class="stat-box highlight"><span class="num">وقف</span><span class="label">خيري دائم</span></div>
+</div>
+</section>
+<div class="hadith-card"><div class="hadith-icon">🕌</div><div><strong>قال رسول الله ﷺ: «من بنى مسجدًا لله بنى الله له مثله في الجنة»</strong> — ساهم معنا في إحياء مساجد حلب.</div></div>
+<section class="section-card">
+<div class="section-header"><h2>التبرع المباشر</h2><div class="badge-safe"><span class="dot-green"></span><span>آمن ومباشر</span></div></div>
+<div class="crypto-grid">
+<div class="crypto-item"><small>الشبكة</small><div class="crypto-main"><span class="coin-icon trc-bg">T</span><span>TRC20</span></div><span class="crypto-sub">Tron Network</span></div>
+<div class="crypto-item"><small>العملة</small><div class="crypto-main"><span class="coin-icon usdt-bg">$</span><span>USDT</span></div><span class="crypto-sub">Tether USD</span></div>
+</div>
+<div class="wallet-label-row"><span>عنوان المحفظة</span><span>انسخ والصق في محفظتك</span></div>
+<div class="wallet-box"><span>USDT - TRC20 Address</span><div class="wallet-address" id="walletAddr">TJcRkUQ9Y6sLvjstTJWshw7MbwQdXArygo</div></div>
+<button class="copy-btn" id="copyBtn" onclick="copyWallet()"><span>📋</span><span id="copyText">نسخ العنوان</span></button>
+<div class="warning-note"><span>⚠️</span><span>تأكد من اختيار شبكة <strong>TRC20</strong> وعملة <strong>USDT</strong> فقط. إرسال عملات أو شبكات أخرى قد يؤدي لفقدان الأموال.</span></div>
+</section>
+<div>
+<h2 style="font-size:20px;font-weight:800">آخر التبرعات</h2>
+<p style="font-size:12.5px;color:#d1c4c4;margin-bottom:12px">نلتزم بالشفافية الكاملة - جميع التحويلات موثقة على البلوكشين</p>
+<div class="tx-card">
+<div class="tx-top"><div class="sham-logo">❖</div><div><small style="color:#d1c4c4;display:block">الاسم</small><strong>شام كاش</strong> <span class="sham-tag">SHAM CASH</span><small style="color:#34d399;display:block">● محفظة دفع إلكترونية</small></div></div>
+<small style="color:#d1c4c4">رقم العملية - Hash</small>
+<div class="hash-box">2834e49330d2b04088492c3dd71d2d28</div>
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px"><span style="font-size:11.5px;color:#d1c4c4">TRC20 • تم التحقق على البلوكشين</span><span class="pill-gold">❖ مدفوع عبر شام كاش</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #381e1e"><span style="font-size:13px;color:#d1c4c4">الحالة</span><span class="pill-confirmed">✓ تم التأكيد</span></div>
+</div>
+</div>
+<div class="trust-card"><div class="check-circle">✓</div><div><h3>توثيق بالصور</h3><p style="font-size:12.5px;color:#d1c4c4">ننشر صور قبل وبعد لكل مسجد</p></div></div>
+<div class="trust-card"><div class="check-circle">✓</div><div><h3>إشراف ميداني</h3><p style="font-size:12.5px;color:#d1c4c4">فريق هندسي مقيم في حلب</p></div></div>
+</div>
+<script>
+function copyWallet(){navigator.clipboard.writeText(document.getElementById("walletAddr").innerText).then(()=>{let b=document.getElementById("copyBtn"),t=document.getElementById("copyText");t.innerText="✓ تم نسخ العنوان بنجاح!";b.style.background="#059669";setTimeout(()=>{t.innerText="نسخ العنوان";b.style.background="#b91c1c"},2500)})}
+</script>
+</body>
+</html>
