@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وقف مساجد حلب - صدقة جارية</title>
+    <!-- استدعاء خط تجوال العربي الأنيق -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #180c0c;
+            --card-bg: #261414;
+            --card-border: #3d2020;
+            --primary-red: #b91c1c;
+            --bright-red: #dc2626;
+            --text-white: #ffffff;
+            --text-muted: #d1baba;
+            --green-badge: #10b981;
+            --gold-badge: #fef3c7;
+            --gold-text: #92400e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            padding: 0 16px;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .brand-logo {
+            width: 34px;
+            height: 34px;
+            background-color: var(--text-white);
+            color: var(--primary-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .search-pill {
+            background-color: var(--text-white);
+            color: #4b5563;
+            padding: 7px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        /* شريط التنبيه العاجل */
+        .urgent-banner {
+            width: 100%;
+            background-color: var(--primary-red);
+            color: var(--text-white);
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .urgent-banner span.icon {
+            background: var(--text-white);
+            color: var(--primary-red);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* بطاقة الهيرو الرئيسية */
+        .hero-card {
+            background: linear-gradient(145deg, #b91c1c, #881313);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .badge-white {
+            background-color: var(--text-white);
+            color: var(--primary-red);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-red);
+            border-radius: 50%;
+        }
+
+        .hero-card h1 {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 14px;
+        }
+
+        .hero-card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #fce7e7;
+            margin-bottom: 22px;
+        }
+
+        /* شبكة الإحصائيات الثلاثية */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .stat-box {
+            background-color: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-box.highlight {
+            background-color: var(--text-white);
+            color: var(--primary-red);
+        }
+
+        .stat-box .num {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .stat-box .label {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        /* بطاقة الحديث الشريف */
+        .hadith-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .hadith-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(185, 28, 28, 0.2);
+            color: var(--bright-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .hadith-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+
+        .hadith-text strong {
+            color: var(--text-white);
+        }
+
+        /* قسم التبرع المباشر */
+        .section-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .badge-safe {
+            background-color: var(--text-white);
+            color: #065f46;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge-safe .dot {
+            width: 7px;
+            height: 7px;
+            background-color: var(--green-badge);
+            border-radius: 50%;
+        }
+
+        /* شبكة الشبكة والعملة */
+        .crypto-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .crypto-box {
+            background-color: #1c0f0f;
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .crypto-box .sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .crypto-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            font-size: 16px;
+        }
+
+        .coin-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .tron-bg { background-color: #ef4444; }
+        .usdt-bg { background-color: #10b981; }
+
+        .crypto-desc {
+            font-size: 11px;
+            color: #8c7373;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* صندوق عنوان المحفظة */
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .address-box {
+            background-color: #0f0707;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .address-label {
+            font-size: 11px;
+            color: #8c7373;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .wallet-address {
+            font-family: monospace;
+            font-size: 14px;
+            color: var(--text-white);
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .copy-btn {
+            width: 100%;
+            background-color: var(--bright-red);
+            color: var(--text-white);
+            border: none;
+            border-radius: 12px;
+            padding: 13px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+            margin-bottom: 14px;
+        }
+
+        .copy-btn:hover {
+            background-color: #b91c1c;
+        }
+
+        .warning-box {
+            background-color: rgba(185, 28, 28, 0.12);
+            border: 1px solid rgba(185, 28, 28, 0.3);
